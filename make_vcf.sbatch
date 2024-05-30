@@ -16,10 +16,6 @@
 WORK_DIR=/home/data/human_genetics/SHeneghan/ClinCNV/VCFs
 VCF=/home/data/human_genetics/SHeneghan/PKD_CNV_calling/09_filtered_segment_VCF_files/ALS_controls
 
-## Create header file
-#cat $VCF/segments_ALS_0_filterbcftools.vcf | grep '^##' > $WORK_DIR/header.txt
-#cat $VCF/segments_ALS_0_filterbcftools.vcf | grep '^#CHROM' >> $WORK_DIR/header.txt
-
 CNV_INPUT=(/home/data/human_genetics/SHeneghan/ClinCNV/cnv_output_S6716_scoreG50_cluster15/normal/S000021_S*Nr*/S000021_S*Nr*_cnvs.tsv)
 FILE="${CNV_INPUT[$SLURM_ARRAY_TASK_ID]}"
 ###FILE is the one that prints each of the files in the scatter directory - will use this for creating the output names
@@ -28,8 +24,12 @@ filename="${FILE}"
 tmp=${filename#*normal/}
 SAMPLE=${tmp%/S000021*}
 
-#cat $WORK_DIR/header.txt > $WORK_DIR/CNV_VCFs_S6716_G50_cluster15/${SAMPLE}.vcf
-#sed -i "s/SAMPLE_ID/$SAMPLE/g" $WORK_DIR/CNV_VCFs_S6716_G50_cluster15/${SAMPLE}.vcf
+## Create header file - take header from another VCF or find template online, and change the sample name to SAMPLE_ID
+cat $VCF/segments_ALS_0_filterbcftools.vcf | grep '^#CHROM' >> $WORK_DIR/header.txt
+
+## Create header file for each sample, then replace "SAMPLE_ID" with the sample name you want
+cat $WORK_DIR/header.txt > $WORK_DIR/CNV_VCFs_S6716_G50_cluster15/${SAMPLE}.vcf && \
+sed -i "s/SAMPLE_ID/$SAMPLE/g" $WORK_DIR/CNV_VCFs_S6716_G50_cluster15/${SAMPLE}.vcf && \
 
 	grep -v "^#" < ${FILE} | while read LINE; do
 			CNV_CHR=$(echo $LINE | awk '{ print $1; }')
@@ -45,7 +45,7 @@ SAMPLE=${tmp%/S000021*}
 			elif [[ ${COPY_NUM} == 1 ]]; then
 				ALT="<DEL>"
 				GT="0/1"
-			elif [[ ${COPY_NUM} > 2 ]]; then
+			elif [[ ${COPY_NUM} >= 2 ]]; then
 	                       	ALT="<DUP>"
                        		GT="./."
 			fi
