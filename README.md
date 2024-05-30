@@ -4,7 +4,7 @@
 Bash scripts formatted for use with the SLURM job manager for calling CNVs from targeted sequencing data.
 
 ## Table of Contents
-1. [Installation](#installation)
+1. [Installation and Pre-requisites](#installation)
 2. [Usage](#usage)
 3. [Documentation](#documentation)
 4. [Testing](#testing)
@@ -16,7 +16,7 @@ Bash scripts formatted for use with the SLURM job manager for calling CNVs from 
 
 ## Installation
 ### Prerequisites
-List of required software and tools.
+Please refer to the original ClinCNV github for installation.
 
 ### Installation Steps
 Step-by-step instructions.
