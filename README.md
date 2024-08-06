@@ -6,7 +6,7 @@ Bash scripts formatted for use with the SLURM job manager for calling CNVs from 
 ## Table of Contents
 1. [Installation and Pre-requisites](#installation)
 2. [Usage](#usage)
-3. [Extra Documentation](#extradocumentation)
+3. [Extra Documentation](#extra-documentation)
 
 ## Installation
 ### Prerequisites
