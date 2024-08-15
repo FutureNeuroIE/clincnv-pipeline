@@ -39,23 +39,23 @@ Requires:
 - Merged coverage file - output from step 3
 - Annotated BED file - output from step 1
 
-**quality_filter.sbatch**: Filter ClinCNV calls for quality: qvalue < 0.05, loglikelihood:no_of_regions ratio > 5, and potential_AF < 0.1
+**5_quality_filter.sbatch**: Filter ClinCNV calls for quality: qvalue < 0.05, loglikelihood:no_of_regions ratio > 5, and potential_AF < 0.1
 
 Requires:
 - ClinCNV TSV file
 
-**make_vcf.sbatch**: Convert ClinCNV output to VCF for easy use
+**6_make_vcf.sbatch**: Convert ClinCNV output to VCF for easy use
 
 Requires:
 - Filtered ClinCNV TSV file
-- VCF header (header.txt)
+- VCF header
 
-**sort_vcf.sbatch**: Puts VCF in positional order, which is required for most annotators.
+**7_sort_vcf.sbatch**: Puts VCF in positional order, which is required for most annotators.
 
 Requires:
 - VCF file
 
-**exclude_HLA_LRC_regions.sbatch**: *Optional*, exclude highly polymorphic regions on chromosome 6 (HLA region) and chromosome 19 (LRC region)
+**8_exclude_MHC_LRC_regions.sbatch**: *Optional*, exclude highly polymorphic regions on chromosome 6 (MHC region) and chromosome 19 (LRC region)
 
 Requires:
 - VCF file

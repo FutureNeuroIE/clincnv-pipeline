@@ -1,24 +1,23 @@
 #!/bin/bash
-#### Sophia Heneghan <sophiaheneghan22@rcsi.ie>
-#### ClinCNV WES CNV calling
 ####
-#SBATCH --job-name=job5
-#SBATCH --partition=ProdQ
+#### Sophia Heneghan <sophiaheneghan22@rcsi.ie>
+#### hg38_CNV_Calling_WES
+####
+#SBATCH --job-name=clincnv
 #SBATCH --time=10-00:00:00
-#SBATCH --ntasks=2
 #SBATCH --mem=50000
 #SBATCH --mail-type=END,FAIL
 #SBATCH --mail-user=sophiaheneghan22@rcsi.com
-#SBATCH --output=/home/data/human_genetics/SHeneghan/ClinCNV/slurmfiles/%j.clincnv_job5.out
-#SBATCH --error=/home/data/human_genetics/SHeneghan/ClinCNV/slurmfiles/%j.clincnv_job5.err
+#SBATCH --output=%j.clincnv_job5.out
+#SBATCH --error=%j.clincnv_job5.err
 
-WORK_DIR=/home/data/human_genetics/SHeneghan/ClinCNV
-BAM=/home/data/human_genetics/Renal/Exomes/CeGaT_PKD/BAM
-BED_FILE=/home/data/human_genetics/reference/hg38/S000021_hg38_targets.bed
+WORK_DIR=/path/to/directory
+BAM=/path/to/BAM
+BED_FILE=/path/to/hg38_targets.bed
 ANNOT_BED=$WORK_DIR/gcAnnotated.targets_hg38.bed
-REF_FILE=/home/data/human_genetics/reference/hg38/hg38_v0_Homo_sapiens_assembly38.fasta
-NGSBITS_PATH=/home/users/sophiaheneghan22/.conda/envs/ngsbits/
-COV_MERGE_FILE=$WORK_DIR/4_merged_cov/merged_cov_file
+REF_FILE=/path/to/reference/hg38_v0_Homo_sapiens_assembly38.fasta
+NGSBITS_PATH=/path/to/.conda/envs/ngsbits/
+COV_MERGE_FILE=$WORK_DIR/merged_cov_file
 
 ## Input: Merged coverage file, annotated BED file
 ## Output: Directory with all sample CNV information - TSV file with CNV info, and 2 files for IGV (CNV and coverage track)
@@ -36,3 +35,4 @@ Rscript ${EBROOTCLINCNV}/clinCNV.R \
         --numberOfThreads 2 \
         --minimumNumOfElemsInCluster 15 \
         --hg38
+#increase minimumNumOfElemsInCluster number if cohort is larger (>100 samples)        

@@ -1,26 +1,28 @@
 #!/bin/bash
-#### Sophia Heneghan <sophiaheneghan22@rcsi.ie>
-#### ClinCNV WES CNV calling
 ####
-#SBATCH --job-name=job3
+#### Sophia Heneghan <sophiaheneghan22@rcsi.ie>
+#### hg38_CNV_Calling_WES
+####
+#SBATCH --job-name=calc_average_coverage
 #SBATCH --partition=ProdQ
 #SBATCH --time=1-00:00:00
-#SBATCH --ntasks=2
 #SBATCH --mem=12000
 #SBATCH --mail-type=END,FAIL
-#SBATCH --output=/home/data/human_genetics/SHeneghan/ClinCNV/slurmfiles/%j.read_cov_job3.out
-#SBATCH --error=/home/data/human_genetics/SHeneghan/ClinCNV/slurmfiles/%j.read_cov_job3.err
-#SBATCH --array=0-63%10
+#SBATCH --output=%j.read_cov_job3.out
+#SBATCH --error=%j.read_cov_job3.err
+#SBATCH --array=0-277%5
+
+# Set SBATCH array to the number of samples you want to run, e.g. 10 samples would be --array=0-9
 
 ## Input: BAM files in one directory, BED file with annotated gc content 
 ## Output: File for each sample with coverage information at each exome target region
 
-WORK_DIR=/home/data/human_genetics/SHeneghan/ClinCNV
-BAM=/home/data/human_genetics/Renal/Exomes/CeGaT_PKD/BAM
-BED_FILE=/home/data/human_genetics/reference/hg38/S000021_hg38_targets.bed
+WORK_DIR=/path/to/directory
+BAM=/path/to/BAM
+BED_FILE=/path/to/hg38_targets.bed
 ANNOT_BED=$WORK_DIR/gcAnnotated.targets_hg38.bed
-REF_FILE=/home/data/human_genetics/reference/hg38/hg38_v0_Homo_sapiens_assembly38.fasta
-NGSBITS_PATH=/home/users/sophiaheneghan22/.conda/envs/ngsbits/
+REF_FILE=/path/to/reference/hg38_v0_Homo_sapiens_assembly38.fasta
+NGSBITS_PATH=/path/to/.conda/envs/ngsbits/
 
 #To run COV files, for on target
 
@@ -40,4 +42,4 @@ SAMPLE=${tmp%.markdup*}
 
 $NGSBITS_PATH/bin/BedCoverage -bam $FILE \
         -in $ANNOT_BED \
-        -min_mapq 5 -decimals 4 > /home/data/human_genetics/SHeneghan/ClinCNV/3_coverage_files/output_ontarget_${SAMPLE}.cov
+        -min_mapq 5 -decimals 4 > /path/to/coverage_files/output_ontarget_${SAMPLE}.cov
